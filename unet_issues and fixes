@@ -1,0 +1,49 @@
+when running the Unet on data segmented with the following labels:
+
+Cerebellum segmentation:
+Left lobule I-II (label 1)
+Left lobule III (label 2)
+Left lobule IV (label 3)
+Left lobule V (label 4)
+Left lobule VI (label 5)
+Left lobule Crus I (label 6)
+Left lobule Crus II (label 7)
+Left lobule VIIB (label 8)
+Left lobule VIIIA (label 9)
+Left lobule VIIIB (label 10)
+Left lobule IX (label 11)
+Left lobule X (label 12)
+Left white matter (label 13)
+Right lobule I-II (label 101)
+Right lobule III (label 102)
+Right lobule IV (label 103)
+Right lobule V (label 104)
+Right lobule VI (label 105)
+Right lobule Crus I (label 106)
+Right lobule Crus II (label 107)
+Right lobule VIIB (label 108)
+Right lobule VIIIA (label 109)
+Right lobule VIIIB (label 110)
+Right lobule IX (label 111)
+Right lobule X (label 112)
+Right white matter (label 113)
+
+i got the following error:
+      File "/home/student/basic_unet/trixi/trixi/experiment/experiment.py", line 108, in run
+      self.process_err(e)
+      File "/home/student/basic_unet/trixi/trixi/experiment/pytorchexperiment.py", line 391, in process_err
+      raise e
+      File "/home/student/basic_unet/trixi/trixi/experiment/experiment.py", line 89, in run
+      self.train(epoch=self._epoch_idx)
+      File "/home/student/PycharmProjects/new_unet/experiments/UNetExperiment.py", line 113, in train
+      loss = self.dice_loss(pred_softmax, target.squeeze()) + self.ce_loss(pred, target.squeeze())
+      File "/opt/anaconda3/envs/a_new_test/lib/python3.6/site-packages/torch/nn/modules/module.py", line 493, in call
+      result = self.forward(input, *kwargs)
+      File "/home/student/PycharmProjects/new_unet/loss_functions/dice_loss.py", line 125, in forward
+      yonehot.scatter(1, y, 1)
+      RuntimeError: Invalid index in scatter at /pytorch/aten/src/TH/generic/THTensorEvenMoreMath.cpp:551
+      INFO:default-0QrzoTnSOB:Experiment exited. Checkpoints stored =)
+      ERROR:visdom:Connection is already closed
+      
+
+the error was root caused to be because of the fact that the labels are not squential, i have ran the clean_labels.py script with changing the values there (in the dictionary) to make sure that the labels will be sequestial and this fixed my problem and i could train the nueral network well.
